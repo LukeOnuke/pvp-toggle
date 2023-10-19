@@ -26,7 +26,7 @@ public class PvpCommand implements CommandExecutor{
             if(!PvpService.isPvpCooldownDone(player)) {
                 commandSender.sendMessage(
                         ChatFormatterService.addPrefix(
-                                Math.abs(Instant.now().toEpochMilli() - (PvpService.getPvpCooldownTimestamp(player).toEpochMilli() + 5000)) + "cooldown left."
+                                Math.abs(Instant.now().toEpochMilli() - (PvpService.getPvpCooldownTimestamp(player).toEpochMilli() + 5000) / 1000) + "cooldown left."
                         )
                 );
                 return false;
