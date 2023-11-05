@@ -16,6 +16,7 @@ public final class PvpToggle extends JavaPlugin {
         plugin = this;
         this.getCommand("pvp").setExecutor(new PvpCommand());
         Bukkit.getPluginManager().registerEvents(new OnDamageListener(), this);
+        plugin.getLogger().info("Registered successfully!");
     }
 
     @Override

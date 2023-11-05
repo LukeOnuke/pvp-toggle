@@ -19,17 +19,17 @@ public class PvpCommand implements CommandExecutor{
         if(args.length == 0){
             if(!(commandSender instanceof Player)) {
                 commandSender.sendMessage(ChatFormatterService.addPrefix(ChatColor.RED + "" + ChatColor.BOLD + "You cant use this command from the console!"));
-                return false;
+                return true;
             }
             Player player = (Player) commandSender;
 
             if(!PvpService.isPvpCooldownDone(player)) {
                 commandSender.sendMessage(
                         ChatFormatterService.addPrefix(
-                                Math.abs(Instant.now().toEpochMilli() - (PvpService.getPvpCooldownTimestamp(player).toEpochMilli() + 5000) / 1000) + "cooldown left."
+                                (PvpService.getPvpCooldownTimestamp(player).toEpochMilli() + 5000 - Instant.now().toEpochMilli()) / 1000 + "s of cooldown left."
                         )
                 );
-                return false;
+                return true;
             }
 
             boolean isPvpEnabled = !PvpService.isPvpEnabled(player);
@@ -39,12 +39,12 @@ public class PvpCommand implements CommandExecutor{
         }else{
             if(!commandSender.hasPermission("pvptoggle.pvp.others")){
                 commandSender.sendMessage(ChatFormatterService.addPrefix(ChatColor.RED + "" + ChatColor.BOLD + "You don't have the permission for this."));
-                return false;
+                return true;
             }
             Player player = Bukkit.getPlayer(args[0]);
             if(player == null) {
                 commandSender.sendMessage(ChatFormatterService.addPrefix(ChatColor.RED + "" + ChatColor.BOLD + "Cant find player " + args[0] + "."));
-                return false;
+                return true;
             }
             boolean isPvpEnabled = !PvpService.isPvpEnabled(player);
             PvpService.setPvpEnabled(player, isPvpEnabled);

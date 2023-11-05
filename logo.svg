@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="90.325928mm"
+   height="32.178947mm"
+   viewBox="0 0 90.325928 32.178947"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   sodipodi:docname="logo.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="2.8649832"
+     inkscape:cx="142.75826"
+     inkscape:cy="37.172993"
+     inkscape:window-width="1920"
+     inkscape:window-height="970"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer2" />
+  <defs
+     id="defs2">
+    <rect
+       x="387.17856"
+       y="163.65997"
+       width="162.12427"
+       height="57.904964"
+       id="rect2142" />
+    <rect
+       x="121.30784"
+       y="151.23846"
+       width="112.72131"
+       height="65.278366"
+       id="rect236" />
+  </defs>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Layer 2"
+     transform="translate(-28.723495,-40.022316)">
+    <rect
+       style="fill:#e6e6e6;fill-opacity:0.999907;stroke:none;stroke-width:0.265898;stroke-opacity:1"
+       id="rect1227"
+       width="71.015053"
+       height="32.178947"
+       x="28.723495"
+       y="40.022316" />
+    <rect
+       style="fill:#e6e6e6;fill-opacity:0.999907;stroke:none;stroke-width:0.3;stroke-opacity:1;stroke-dasharray:none;stroke-linejoin:round"
+       id="rect2009"
+       width="90.325928"
+       height="32.178947"
+       x="28.723495"
+       y="40.022316"
+       inkscape:export-filename="logo.png"
+       inkscape:export-xdpi="143.97638"
+       inkscape:export-ydpi="143.97638" />
+    <rect
+       style="fill:#00ff00;fill-opacity:0.999907;stroke:#7e7e7e;stroke-width:1.69175;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+       id="rect2009-3"
+       width="18.713629"
+       height="30.487196"
+       x="99.489922"
+       y="40.868191" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0,-0.17436826,0.17436826,0,75.213414,136.76426)"
+       id="text2140"
+       style="font-size:48px;white-space:pre;shape-inside:url(#rect2142);display:inline;fill:#ececec;fill-opacity:0.999907;stroke:#7e7e7e;stroke-width:6.56126;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"><tspan
+         x="387.17773"
+         y="206.12891"
+         id="tspan2406"><tspan
+           style="stroke:none"
+           id="tspan2404">toggle</tspan></tspan></text>
+  </g>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-28.723495,-40.022316)">
+    <text
+       xml:space="preserve"
+       transform="matrix(0.73216843,0,0,0.73216843,-58.924856,-72.904296)"
+       id="text234"
+       style="font-size:48px;white-space:pre;shape-inside:url(#rect236);display:inline;fill:#000000;fill-opacity:0;stroke:#000000"><tspan
+         x="121.30859"
+         y="193.70703"
+         id="tspan2410"><tspan
+           style="fill:#aa4400;fill-opacity:0.999907;stroke:none"
+           id="tspan2408">PVP</tspan></tspan></text>
+  </g>
+</svg>
