@@ -33,6 +33,7 @@ public class OnDamageListener implements Listener {
         if(event.getDamager() instanceof Projectile projectile){
             if(projectile.getShooter() instanceof Player projectileOwner) {
                 damager = projectileOwner;
+                if(player.equals(projectileOwner)) return; //can shoot yourself
                 if(!PvpService.isPvpEnabled(player)) event.setCancelled(true);
                 if(!PvpService.isPvpEnabled(projectileOwner)) event.setCancelled(true);
             }
