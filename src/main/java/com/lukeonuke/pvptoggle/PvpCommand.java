@@ -42,16 +42,18 @@ public class PvpCommand implements CommandExecutor{
                 commandSender.sendMessage(ChatFormatterService.addPrefix(ChatColor.RED + "" + ChatColor.BOLD + "You don't have the permission for this."));
                 return true;
             }
-            
-            Player player = Bukkit.getPlayer(args[0]);
-            if (player == null) {
-                commandSender.sendMessage(ChatFormatterService.addPrefix(ChatColor.RED + "" + ChatColor.BOLD + "Cant find player " + args[0] + "."));
-                return true;
+
+            for (String arg : args) {
+                Player player = Bukkit.getPlayer(arg);
+                if (player == null) {
+                    commandSender.sendMessage(ChatFormatterService.addPrefix(ChatColor.RED + "" + ChatColor.BOLD + "Cant find player " + args[0] + "."));
+                    continue;
+                }
+
+                boolean isPvpEnabled = PvpService.isPvpDisabled(player);
+                PvpService.setPvpEnabled(player, isPvpEnabled);
+                commandSender.sendMessage(ChatFormatterService.addPrefix("PVP for " + player.getName() + " is now " + ChatFormatterService.booleanHumanReadable(isPvpEnabled)));
             }
-            
-            boolean isPvpEnabled = PvpService.isPvpDisabled(player);
-            PvpService.setPvpEnabled(player, isPvpEnabled);
-            commandSender.sendMessage(ChatFormatterService.addPrefix("PVP for " + player.getName() + " is now " + ChatFormatterService.booleanHumanReadable(isPvpEnabled)));
         }
         return true;
     }
