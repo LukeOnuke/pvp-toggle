@@ -7,6 +7,8 @@ import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Objects;
+
 public final class PvpToggle extends JavaPlugin {
     @Getter
     private static Plugin plugin = null;
@@ -14,7 +16,7 @@ public final class PvpToggle extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         plugin = this;
-        this.getCommand("pvp").setExecutor(new PvpCommand());
+        Objects.requireNonNull(this.getCommand("pvp")).setExecutor(new PvpCommand());
         Bukkit.getPluginManager().registerEvents(new OnDamageListener(), this);
         plugin.getLogger().info("Registered successfully!");
     }

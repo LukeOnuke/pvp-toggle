@@ -7,6 +7,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.time.Instant;
+import java.util.Objects;
 
 public class PvpService {
     private static final NamespacedKey isPvpEnabledKey = new NamespacedKey(PvpToggle.getPlugin(), "isPvpEnabled");
@@ -19,10 +20,10 @@ public class PvpService {
         return dataContainer;
     }
 
-    public static boolean isPvpEnabled(Player player) {
+    public static boolean isPvpDisabled(Player player) {
         PersistentDataContainer dataContainer = ensurePvpEnabledKeyExistsAndReturnDataContainer(player);
         // By equating to true we ensure that the data isn't null.
-        return Boolean.TRUE.equals(dataContainer.get(isPvpEnabledKey, PersistentDataType.BOOLEAN));
+        return !Boolean.TRUE.equals(dataContainer.get(isPvpEnabledKey, PersistentDataType.BOOLEAN));
     }
 
     public static void setPvpEnabled(Player player, boolean enabled) {
@@ -31,17 +32,15 @@ public class PvpService {
         dataContainer.set(pvpToggledTimestamp, PersistentDataType.LONG, Instant.now().toEpochMilli());
     }
 
-    public static Instant getPvpCooldownTimestamp(Player player){
+    public static Instant getPvpCooldownTimestamp(Player player) {
         PersistentDataContainer dataContainer = player.getPersistentDataContainer();
         if (!dataContainer.has(pvpToggledTimestamp, PersistentDataType.LONG))
             dataContainer.set(pvpToggledTimestamp, PersistentDataType.LONG, 0L);
 
-        return Instant.ofEpochMilli(dataContainer.get(pvpToggledTimestamp, PersistentDataType.LONG));
+        return Instant.ofEpochMilli(Objects.requireNonNull(dataContainer.get(pvpToggledTimestamp, PersistentDataType.LONG)));
     }
 
-    public static boolean isPvpCooldownDone(Player player){
-        return Instant.now().isAfter(
-                Instant.ofEpochMilli(getPvpCooldownTimestamp(player).toEpochMilli() + 5000)
-        );
+    public static boolean isPvpCooldownDone(Player player) {
+        return Instant.now().isAfter(Instant.ofEpochMilli(getPvpCooldownTimestamp(player).toEpochMilli() + 5000));
     }
 }
