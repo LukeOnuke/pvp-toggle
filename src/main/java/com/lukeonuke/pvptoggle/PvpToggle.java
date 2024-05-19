@@ -1,9 +1,9 @@
 package com.lukeonuke.pvptoggle;
 
 import com.lukeonuke.pvptoggle.event.OnDamageListener;
+import com.lukeonuke.pvptoggle.service.PvpService;
 import lombok.Getter;
 import org.bukkit.Bukkit;
-import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -16,6 +16,7 @@ public final class PvpToggle extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         plugin = this;
+        PvpService.setDefaultPvp(getConfig().getBoolean("default-pvp", false));
         Objects.requireNonNull(this.getCommand("pvp")).setExecutor(new PvpCommand());
         Bukkit.getPluginManager().registerEvents(new OnDamageListener(), this);
         plugin.getLogger().info("Registered successfully!");
