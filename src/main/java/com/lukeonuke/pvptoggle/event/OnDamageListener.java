@@ -15,6 +15,12 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import java.util.Objects;
 
 public class OnDamageListener implements Listener {
+    private final String cantPvpMessage;
+
+    public OnDamageListener(String cantPvpMessage) {
+        this.cantPvpMessage = cantPvpMessage;
+    }
+
     @EventHandler()
     //fired when an entity is hit
     public void onHit(EntityDamageByEntityEvent event) {
@@ -35,7 +41,7 @@ public class OnDamageListener implements Listener {
 
         if (event.isCancelled() && Objects.nonNull(damager)) {
             damager.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, player.getLocation(), 10);
-            damager.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText((ChatFormatterService.addPrefix("You can't PVP with " + player.getDisplayName() + ChatColor.RESET + "!" ))));
+            damager.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText((ChatFormatterService.addPrefix(cantPvpMessage.replace("%s", player.getDisplayName() + ChatColor.RESET)))));
         }
     }
 }

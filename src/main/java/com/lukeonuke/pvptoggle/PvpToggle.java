@@ -16,9 +16,10 @@ public final class PvpToggle extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         plugin = this;
+        saveDefaultConfig();
         PvpService.setDefaultPvp(getConfig().getBoolean("default-pvp", false));
         Objects.requireNonNull(this.getCommand("pvp")).setExecutor(new PvpCommand());
-        Bukkit.getPluginManager().registerEvents(new OnDamageListener(), this);
+        Bukkit.getPluginManager().registerEvents(new OnDamageListener(getConfig().getString("pvp-off-message", "You can't PVP with %s!")), this);
         plugin.getLogger().info("Registered successfully!");
     }
 
