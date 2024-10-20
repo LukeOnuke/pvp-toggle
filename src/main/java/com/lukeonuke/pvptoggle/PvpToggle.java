@@ -26,7 +26,7 @@ public final class PvpToggle extends JavaPlugin {
         OnDamageListener.spawnParticles = getConfig().getBoolean("particles", false);
         OnDamageListener.sendFeedback = getConfig().getBoolean("feedback", false);
         PvpCommand.cooldownDuration = getConfig().getInt("cooldown", 120);
-        PvpCommand.cooldownMessage = getConfig().getString("cooldown-message", "%s of cooldown remaining.")
+        PvpCommand.cooldownMessage = getConfig().getString("cooldown-message", "%s of cooldown remaining.");
         PvpService.cooldownDuration = getConfig().getInt("cooldown", 120);
         ChatFormatterService.prefix = getConfig().getString("prefix", "§4PVP »");
 
