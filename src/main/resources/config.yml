@@ -10,6 +10,7 @@ prefix: "§4PVP »"
 default-pvp: false
 
 # What is the message sent to players in the chat if they try to use the pvp command while on cooldown?
+# %s is replaced by the time remaining, in the format of "1 minute and 32 seconds" or "32 seconds"
 cooldown-message: "%s of cooldown remaining."
 
 # After enabling pvp, how long must a player wait before disabling it?
