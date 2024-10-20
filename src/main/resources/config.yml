@@ -1,5 +1,0 @@
-# Default pvp on/off
-default-pvp: false
-# Message displayed when trying to pvp while one has pvp toggled off
-# %s is replaced by damaged player name
-pvp-off-message: "You can't PVP with %s!"

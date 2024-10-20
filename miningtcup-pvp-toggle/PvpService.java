@@ -12,21 +12,22 @@ import java.util.Objects;
 public class PvpService {
     private static final NamespacedKey isPvpEnabledKey = new NamespacedKey(PvpToggle.getPlugin(), "isPvpEnabled");
     private static final NamespacedKey pvpToggledTimestamp = new NamespacedKey(PvpToggle.getPlugin(), "pvpToggledTimestamp");
-    private static Boolean notDefaultPvp;
-    
-    public static void setDefaultPvp(boolean defaultPvp) {
-        PvpService.notDefaultPvp = !defaultPvp;
-    }
-    
+    public static Boolean defaultPvp;
+    public static Integer cooldownDuration;
+
     public static boolean isPvpDisabled(Player player) {
         PersistentDataContainer dataContainer = player.getPersistentDataContainer();
-        // By equating to true we ensure that the data isn't null.
-        return notDefaultPvp.equals(dataContainer.get(isPvpEnabledKey, PersistentDataType.BOOLEAN));
+        return !defaultPvp.equals(dataContainer.get(isPvpEnabledKey, PersistentDataType.BOOLEAN));
     }
 
     public static void setPvpEnabled(Player player, boolean enabled) {
         PersistentDataContainer dataContainer = player.getPersistentDataContainer();
-        dataContainer.set(isPvpEnabledKey, PersistentDataType.BOOLEAN, enabled);
+        dataContainer.set(isPvpEnabledKey, PersistentDataType.BOOLEAN, !enabled);
+        dataContainer.set(pvpToggledTimestamp, PersistentDataType.LONG, Instant.now().toEpochMilli());
+    }
+
+    public static void setPvpCooldownTimestamp(Player player) {
+        PersistentDataContainer dataContainer = player.getPersistentDataContainer();
         dataContainer.set(pvpToggledTimestamp, PersistentDataType.LONG, Instant.now().toEpochMilli());
     }
 
@@ -39,6 +40,6 @@ public class PvpService {
     }
 
     public static boolean isPvpCooldownDone(Player player) {
-        return Instant.now().isAfter(Instant.ofEpochMilli(getPvpCooldownTimestamp(player).toEpochMilli() + 5000));
+        return Instant.now().isAfter(Instant.ofEpochMilli(getPvpCooldownTimestamp(player).toEpochMilli() + cooldownDuration * 1000));
     }
 }
