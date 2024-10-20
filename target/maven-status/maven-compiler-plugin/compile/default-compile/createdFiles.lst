@@ -1,0 +1,5 @@
+com/lukeonuke/pvptoggle/event/OnDamageListener.class
+com/lukeonuke/pvptoggle/service/ChatFormatterService.class
+com/lukeonuke/pvptoggle/service/PvpService.class
+com/lukeonuke/pvptoggle/PvpToggle.class
+com/lukeonuke/pvptoggle/PvpCommand.class

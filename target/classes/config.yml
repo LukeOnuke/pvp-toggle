@@ -1,0 +1,25 @@
+# What should the message be when a player tries to attack someone but fails because they're protected?
+# %s is replaced by damaged player's name.
+pvp-off-message: "You can't fight %s!"
+
+# What should messages be prefixed with?
+# You can use the formatting codes listed at https://minecraft.wiki/w/Formatting_codes#Color_codes
+prefix: "§4PVP »"
+
+# Should pvp be on by default?
+default-pvp: false
+
+# After enabling pvp, how long must a player wait before disabling it?
+cooldown: 120
+
+# Should players be prevented from disabling pvp during a fight?
+anti-abuse: true
+
+# Should players be able to hit themselves?
+hit-self: true
+
+# Should particles be spawned when a player is hit, but protected?
+particles: false
+
+# Should a message be sent to a player when they hit another player, but fail because that player is protected?
+feedback: true
