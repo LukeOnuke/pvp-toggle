@@ -1,13 +1,19 @@
-name: pvp-toggle
+name: PVPToggle
 version: '${project.version}'
 main: com.lukeonuke.pvptoggle.PvpToggle
 api-version: '1.20'
 commands:
   pvp:
-    description: "Toggle pvp"
+    description: "Allow players to toggle PVP individually."
     usage: /<command>
     permission: pvptoggle.pvp
 permissions :
   pvptoggle.pvp.others:
-    description: "Allows the player to toggle pvp of other players"
+    description: "Allows the player to toggle PVP for other players."
+    default: op
+  pvptoggle.pvp:
+    description: "Allows the player to toggle their own PVP."
+    default: true
+  pvptoggle.reload:
+    description: "Reload the plugin."
     default: op

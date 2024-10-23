@@ -13,6 +13,9 @@ import org.jetbrains.annotations.NotNull;
 import java.time.Instant;
 
 public class PvpCommand implements CommandExecutor{
+    public static Integer cooldownDuration;
+    public static String cooldownMessage;
+
     @Override
     public boolean onCommand(
             @NotNull CommandSender commandSender, 
@@ -21,38 +24,45 @@ public class PvpCommand implements CommandExecutor{
             String[] args) {
         if (args.length == 0) {
             if (!(commandSender instanceof Player player)) {
-                commandSender.sendMessage(ChatFormatterService.addPrefix(ChatColor.RED + "" + ChatColor.BOLD + "You cant use this command from the console!"));
+                commandSender.sendMessage(ChatFormatterService.addPrefix("You can't use this command from the console!"));
                 return true;
             }
 
-            if (!PvpService.isPvpCooldownDone(player)) {
-                commandSender.sendMessage(
-                    ChatFormatterService.addPrefix(
-                    (PvpService.getPvpCooldownTimestamp(player).toEpochMilli() + 5000 - Instant.now().toEpochMilli()) / 1000 + "s of cooldown left."
-                    )
-                );
+            if (!PvpService.isPvpCooldownDone(player) && !PvpService.isPvpDisabled(player)) {
+                long remainingCooldownMs = PvpService.getPvpCooldownTimestamp(player).toEpochMilli() + (cooldownDuration * 1000 + 1000) - Instant.now().toEpochMilli();
+                commandSender.sendMessage(ChatFormatterService.addPrefix(cooldownMessage.replace("%s", ChatFormatterService.formatTime(remainingCooldownMs))));
                 return true;
             }
 
             boolean isPvpEnabled = PvpService.isPvpDisabled(player);
             PvpService.setPvpEnabled(player, isPvpEnabled);
-            commandSender.sendMessage(ChatFormatterService.addPrefix("PVP is now " + ChatFormatterService.booleanHumanReadable(isPvpEnabled) ));
-        } else {
+            commandSender.sendMessage(ChatFormatterService.addPrefix("You are now " + ChatFormatterService.booleanHumanReadable(isPvpEnabled) ));
+        }
+        else if (args[0].equals("reload")) {
+            if (commandSender.hasPermission("pvptoggle.reload")) {
+                PvpToggle pluginInstance = (PvpToggle) PvpToggle.plugin;
+                pluginInstance.reload();
+                commandSender.sendMessage(ChatFormatterService.addPrefix(ChatColor.GREEN + "Plugin configuration reloaded."));
+            } else {
+                commandSender.sendMessage(ChatFormatterService.addPrefix(ChatColor.RED + "You don't have permission to reload the config."));
+            }
+        }
+        else {
             if (!commandSender.hasPermission("pvptoggle.pvp.others")) {
-                commandSender.sendMessage(ChatFormatterService.addPrefix(ChatColor.RED + "" + ChatColor.BOLD + "You don't have the permission for this."));
+                commandSender.sendMessage(ChatFormatterService.addPrefix(ChatColor.RED + "You don't have the required permission."));
                 return true;
             }
 
             for (String arg : args) {
                 Player player = Bukkit.getPlayer(arg);
                 if (player == null) {
-                    commandSender.sendMessage(ChatFormatterService.addPrefix(ChatColor.RED + "" + ChatColor.BOLD + "Cant find player " + args[0] + "."));
+                    commandSender.sendMessage(ChatFormatterService.addPrefix(ChatColor.RED + "Can't find player " + args[0] + "."));
                     continue;
                 }
 
                 boolean isPvpEnabled = PvpService.isPvpDisabled(player);
                 PvpService.setPvpEnabled(player, isPvpEnabled);
-                commandSender.sendMessage(ChatFormatterService.addPrefix("PVP for " + player.getName() + " is now " + ChatFormatterService.booleanHumanReadable(isPvpEnabled)));
+                commandSender.sendMessage(ChatFormatterService.addPrefix(player.getName() + " is now " + ChatFormatterService.booleanHumanReadable(isPvpEnabled)));
             }
         }
         return true;

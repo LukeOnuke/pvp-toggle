@@ -1,5 +1,6 @@
 package com.lukeonuke.pvptoggle.event;
 
+import com.lukeonuke.pvptoggle.PvpToggle;
 import com.lukeonuke.pvptoggle.service.ChatFormatterService;
 import com.lukeonuke.pvptoggle.service.PvpService;
 import net.md_5.bungee.api.ChatMessageType;
@@ -15,14 +16,17 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import java.util.Objects;
 
 public class OnDamageListener implements Listener {
-    private final String cantPvpMessage;
+    public static String feedbackMessage;
+    public static Boolean antiAbuse;
+    public static Boolean sendFeedback;
+    public static Boolean hitSelf;
+    public static Boolean spawnParticles;
 
-    public OnDamageListener(String cantPvpMessage) {
-        this.cantPvpMessage = cantPvpMessage;
+    public OnDamageListener(String feedbackMessage) {
+        OnDamageListener.feedbackMessage = feedbackMessage;
     }
 
     @EventHandler()
-    //fired when an entity is hit
     public void onHit(EntityDamageByEntityEvent event) {
         if(!(event.getEntity() instanceof Player player)) return;
         Player damager = null;
@@ -32,16 +36,23 @@ public class OnDamageListener implements Listener {
             event.setCancelled(true);
         }
 
-        if (event.getDamager() instanceof Projectile projectile && projectile.getShooter() instanceof Player projectileOwner) {
+        // If a player hits themselves and hit-self is true, make them take damage.
+        if (event.getDamager() instanceof Projectile projectile && projectile.getShooter() instanceof Player projectileOwner && hitSelf) {
             damager = projectileOwner;
-            if (player.equals(projectileOwner)) return; //can shoot yourself
+            if (player.equals(projectileOwner)) return;
             if (PvpService.isPvpDisabled(player)) event.setCancelled(true);
             if (PvpService.isPvpDisabled(projectileOwner)) event.setCancelled(true);
         }
 
+        // If a player is hit by another player, but is protected, spawn particles and send a message to the attacker.
         if (event.isCancelled() && Objects.nonNull(damager)) {
-            damager.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, player.getLocation(), 10);
-            damager.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText((ChatFormatterService.addPrefix(cantPvpMessage.replace("%s", player.getDisplayName() + ChatColor.RESET)))));
+            if (spawnParticles) damager.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, player.getLocation(), 10);
+            if (sendFeedback) damager.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText((ChatFormatterService.addPrefix(feedbackMessage.replace("%s", player.getDisplayName() + ChatColor.RESET)))));
+        }
+
+        // If a player is hit by another player, is vulnerable, and anti-abuse is true, restart the damaged player's cooldown.
+        if (!event.isCancelled() && antiAbuse) {
+            PvpService.setPvpCooldownTimestamp(player);
         }
     }
 }
