@@ -1,7 +1,6 @@
 # What should the message be when a player tries to attack someone but fails because they're protected?
 # %s is replaced by damaged player's name.
 pvp-off-message: "You can't fight %s!"
-
 pet-pvp-message: "You can't fight %s's pet!"
 
 # What should messages be prefixed with?
@@ -48,5 +47,8 @@ death-message: true
 # Should players be able to attack pets of protected players?
 protect-pets: true
 
-# Should players be able to hit their own pets?
-hit-pets: false
+# Should players ever be able to hit their own pets? (More "friendlies" coming soon)
+friendly-fire: false
+
+# What should the message be when you try to attack your own team, but fail because friendly-fire is false?
+ff-message: "Friendly fire!"

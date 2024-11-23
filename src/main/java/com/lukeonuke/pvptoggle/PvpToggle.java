@@ -52,6 +52,7 @@ public final class PvpToggle extends JavaPlugin {
         OnPlayerDeathListener.deathMessage = getConfig().getBoolean("death-message", true);
         OnDamageListener.protectPets = getConfig().getBoolean("protect-pets", true);
         OnDamageListener.petPvpMessage = getConfig().getString("pet-pvp-message", "You can't fight %s's pet!");
-        OnDamageListener.hitPets = getConfig().getBoolean("hit-pets", false);
+        OnDamageListener.friendlyFire = getConfig().getBoolean("friendly-fire", false);
+        OnDamageListener.ffMessage = getConfig().getString("ff-message", "Friendly fire!");
     }
 }
