@@ -50,5 +50,8 @@ public final class PvpToggle extends JavaPlugin {
         OnPlayerDeathListener.deathCooldownReset = getConfig().getBoolean("death-cooldown-reset", true);
         OnPlayerDeathListener.deathCooldown = getConfig().getInt("death-cooldown", 0);
         OnPlayerDeathListener.deathMessage = getConfig().getBoolean("death-message", true);
+        OnDamageListener.protectPets = getConfig().getBoolean("protect-pets", true);
+        OnDamageListener.petPvpMessage = getConfig().getString("pet-pvp-message", "You can't fight %s's pet!");
+        OnDamageListener.hitPets = getConfig().getBoolean("hit-pets", false);
     }
 }

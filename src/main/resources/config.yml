@@ -2,6 +2,8 @@
 # %s is replaced by damaged player's name.
 pvp-off-message: "You can't fight %s!"
 
+pet-pvp-message: "You can't fight %s's pet!"
+
 # What should messages be prefixed with?
 # You can use the formatting codes listed at https://minecraft.wiki/w/Formatting_codes#Color_codes
 prefix: "§4PvP »"
@@ -23,7 +25,7 @@ anti-abuse: true
 hit-self: true
 
 # Should particles be spawned when a player is hit, but protected?
-particles: false
+particles: true
 
 # Should a message be sent to a player when they hit another player, but fail because that player is protected?
 feedback: true
@@ -42,3 +44,9 @@ death-cooldown: 0
 
 # Should a player be sent a chat message when they die?
 death-message: true
+
+# Should players be able to attack pets of protected players?
+protect-pets: true
+
+# Should players be able to hit their own pets?
+hit-pets: false
