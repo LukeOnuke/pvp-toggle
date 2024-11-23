@@ -1,6 +1,5 @@
 package com.lukeonuke.pvptoggle.event;
 
-import com.lukeonuke.pvptoggle.PvpToggle;
 import com.lukeonuke.pvptoggle.service.ChatFormatterService;
 import com.lukeonuke.pvptoggle.service.PvpService;
 import net.md_5.bungee.api.ChatMessageType;
@@ -11,6 +10,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -68,13 +68,27 @@ public class OnDamageListener implements Listener {
         if (event.isCancelled() && Objects.nonNull(damager)) {
             if (spawnParticles && pet != null) damager.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, pet.getLocation(), 10);
             else damager.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, player.getLocation(), 10);
-            if (sendFeedback && pet != null) damager.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText((ChatFormatterService.addPrefix(petPvpMessage.replace("%s", player.getDisplayName() + ChatColor.RESET)))));
-            else damager.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText((ChatFormatterService.addPrefix(feedbackMessage.replace("%s", player.getDisplayName() + ChatColor.RESET)))));
+            TextComponent actionBarMessage = getActionBarMessage(pet, player);
+            damager.spigot().sendMessage(ChatMessageType.ACTION_BAR, actionBarMessage);
         }
 
         // If a player is hit by another player, is vulnerable, and anti-abuse is true, restart the damaged player's cooldown.
         if (!event.isCancelled() && antiAbuse) {
             PvpService.setPvpCooldownTimestamp(player);
         }
+    }
+
+    private static @NotNull TextComponent getActionBarMessage(Tameable pet, Player player) {
+        String message;
+        if (sendFeedback && pet != null) {
+            message = ChatFormatterService.addPrefix(
+                    petPvpMessage.replace("%s", player.getDisplayName() + ChatColor.RESET)
+            );
+        } else {
+            message = ChatFormatterService.addPrefix(
+                    feedbackMessage.replace("%s", player.getDisplayName() + ChatColor.RESET)
+            );
+        }
+        return new TextComponent(message);
     }
 }
