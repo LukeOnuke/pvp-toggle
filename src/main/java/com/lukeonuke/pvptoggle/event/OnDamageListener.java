@@ -92,11 +92,7 @@ public class OnDamageListener implements Listener {
         // If attack is cancelled, handle feedback and particles
         if (event.isCancelled() && damager != null) {
             if (spawnParticles) {
-                if (pet != null) {
-                    damager.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, pet.getLocation(), 10);
-                } else {
-                    damager.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, player.getLocation(), 10);
-                }
+                damager.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, Objects.requireNonNullElse(pet, player).getLocation(), 10);
             }
 
             // Send feedback message to the attacker
