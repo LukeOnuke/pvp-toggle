@@ -1,8 +1,6 @@
 package com.lukeonuke.pvptoggle.service;
 
 import com.lukeonuke.pvptoggle.PvpToggle;
-import net.md_5.bungee.api.ChatMessageType;
-import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
