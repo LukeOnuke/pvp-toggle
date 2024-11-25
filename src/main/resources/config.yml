@@ -1,8 +1,3 @@
-# What should the message be when a player tries to attack someone but fails because they're protected?
-# %s is replaced by damaged player's name.
-pvp-off-message: "You can't fight %s!"
-pet-pvp-message: "You can't fight %s's pet!"
-
 # What should messages be prefixed with?
 # You can use the formatting codes listed at https://minecraft.wiki/w/Formatting_codes#Color_codes
 prefix: "§4PvP »"
@@ -35,14 +30,17 @@ death-status-reset: true
 # Should pvp be turned on after a player dies? Doesn't apply if death-status-reset is false.
 death-status: false
 
-# Should a player's cooldown be reset when they die?
-death-cooldown-reset: true
+# How many seconds should a player's cooldown be set to when they die? -1 to disable.
+death-cooldown: -1
 
-# How many seconds should a player's cooldown be set to when they die? Doesn't apply if death-cooldown-reset is false.
-death-cooldown: 0
+# After how many seconds should a player's pvp be automatically re-enabled? -1 to disable.
+limited-time: -1
+
+# Should a player be sent a chat message when their pvp is automatically re-enabled?
+limited-message: "You are now %s"
 
 # Should a player be sent a chat message when they die?
-death-message: true
+death-message: "You are now %s"
 
 # Should players be able to attack pets of protected players?
 protect-pets: true
@@ -50,5 +48,37 @@ protect-pets: true
 # Should players ever be able to hit their own pets? (More "friendlies" coming soon)
 friendly-fire: false
 
+# What should the message be when a player tries to attack someone but fails because they're protected?
+# %s is replaced with the name of the attacked.
+pvp-off-message: "You can't fight %s!"
+# %r is replaced with the name of the pet, for example "Wolf" or "King George II."
+pet-pvp-message: "You can't fight %s's %r!"
+
 # What should the message be when you try to attack your own team, but fail because friendly-fire is false?
 ff-message: "Friendly fire!"
+
+# What should the message be when toggle pvp?
+# %s is replaced with the new state, "Vulnerable" or "Protected" by default.
+toggle-message: "You are now %s"
+
+# What should the message be when the console tries to do something that only players can do?
+console-message: "§cYou can't use this command from the console."
+
+# What should the message be when someone tries to do something, but can't because they don't have permission to?
+permission-message: "You don't have permission to use this command."
+
+# What should the message be after reloading this plugin?
+reload-message: "Reloaded!"
+
+# What should the message be when the targeted player can't be found?
+# %s is replaced with the name of the targeted player.
+not-found-message: "%s isn't online."
+
+# What should the message be after toggling another player's pvp?
+# %s is replaced with the name of the targeted player.
+# %r is replaced with the new state, "Vulnerable" or "Protected" by default.
+remote-toggle-message: "%s is now %r"
+
+# What should the words for the two states of pvp be?
+disabled: "§aProtected"
+enabled: "§cVulnerable"

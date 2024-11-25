@@ -15,6 +15,12 @@ import java.time.Instant;
 public class PvpCommand implements CommandExecutor{
     public static Integer cooldownDuration;
     public static String cooldownMessage;
+    public static String toggleMessage;
+    public static String consoleMessage;
+    public static String reloadMessage;
+    public static String permissionMessage;
+    public static String notFoundMessage;
+    public static String remoteToggleMessage;
 
     @Override
     public boolean onCommand(
@@ -24,7 +30,7 @@ public class PvpCommand implements CommandExecutor{
             String[] args) {
         if (args.length == 0) {
             if (!(commandSender instanceof Player player)) {
-                commandSender.sendMessage(ChatFormatterService.addPrefix("You can't use this command from the console!"));
+                commandSender.sendMessage(ChatFormatterService.addPrefix(consoleMessage));
                 return true;
             }
 
@@ -36,33 +42,33 @@ public class PvpCommand implements CommandExecutor{
 
             boolean isPvpEnabled = PvpService.isPvpDisabled(player);
             PvpService.setPvpEnabled(player, isPvpEnabled);
-            commandSender.sendMessage(ChatFormatterService.addPrefix("You are now " + ChatFormatterService.booleanHumanReadable(isPvpEnabled) ));
+            commandSender.sendMessage(ChatFormatterService.addPrefix(toggleMessage.replace("%s", ChatFormatterService.booleanHumanReadable(isPvpEnabled))));
         }
         else if (args[0].equals("reload")) {
             if (commandSender.hasPermission("pvptoggle.reload")) {
                 PvpToggle pluginInstance = (PvpToggle) PvpToggle.plugin;
                 pluginInstance.reload();
-                commandSender.sendMessage(ChatFormatterService.addPrefix(ChatColor.GREEN + "Plugin configuration reloaded."));
+                commandSender.sendMessage(ChatFormatterService.addPrefix(reloadMessage));
             } else {
-                commandSender.sendMessage(ChatFormatterService.addPrefix(ChatColor.RED + "You don't have permission to reload the config."));
+                commandSender.sendMessage(ChatFormatterService.addPrefix(permissionMessage));
             }
         }
         else {
             if (!commandSender.hasPermission("pvptoggle.pvp.others")) {
-                commandSender.sendMessage(ChatFormatterService.addPrefix(ChatColor.RED + "You don't have the required permission."));
+                commandSender.sendMessage(ChatFormatterService.addPrefix(permissionMessage));
                 return true;
             }
 
             for (String arg : args) {
                 Player player = Bukkit.getPlayer(arg);
                 if (player == null) {
-                    commandSender.sendMessage(ChatFormatterService.addPrefix(ChatColor.RED + "Can't find player " + args[0] + "."));
+                    commandSender.sendMessage(ChatFormatterService.addPrefix(notFoundMessage.replace("%s", args[0])));
                     continue;
                 }
 
                 boolean isPvpEnabled = PvpService.isPvpDisabled(player);
                 PvpService.setPvpEnabled(player, isPvpEnabled);
-                commandSender.sendMessage(ChatFormatterService.addPrefix(player.getName() + " is now " + ChatFormatterService.booleanHumanReadable(isPvpEnabled)));
+                commandSender.sendMessage(ChatFormatterService.addPrefix(remoteToggleMessage.replace("%s", player.getName()).replace("%r", ChatFormatterService.booleanHumanReadable(isPvpEnabled))));
             }
         }
         return true;

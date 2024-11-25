@@ -113,7 +113,7 @@ public class OnDamageListener implements Listener {
         if (pet != null) {
             if (damager.equals(player)) message = ChatFormatterService.addPrefix(ffMessage);
             else message = ChatFormatterService.addPrefix(
-                    petPvpMessage.replace("%s", player.getDisplayName() + ChatColor.RESET)
+                    petPvpMessage.replace("%s", player.getDisplayName() + ChatColor.RESET).replace("%r", pet.getName())
             );
         } else {
             message = ChatFormatterService.addPrefix(
