@@ -76,6 +76,24 @@ public class OnDamageListener implements Listener {
             }
         }
 
+        // Check for other attacks such as TNT
+        if (event.getDamageSource().getCausingEntity() instanceof Player cause) {
+            if (PvpService.isPvpDisabled(player) || PvpService.isPvpDisabled(cause)) {
+                event.setCancelled(true);
+                if (spawnParticles) {
+                    cause.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, Objects.requireNonNullElse(pet, player).getLocation(), 10);
+                }
+                if (sendFeedback) {
+                    TextComponent actionBarMessage = getActionBarMessage(pet, player, cause);
+                    cause.spigot().sendMessage(ChatMessageType.ACTION_BAR, actionBarMessage);
+                }
+                if (!event.isCancelled() && antiAbuse) {
+                    PvpService.setPvpCooldownTimestamp(player);
+                }
+                return;
+            }
+        }
+
         // Check if attacked by a tameable entity
         if (event.getDamager() instanceof Tameable tameableAttacker) {
             if (tameableAttacker.getOwner() instanceof Player attackerOwner) {
