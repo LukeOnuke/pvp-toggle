@@ -61,11 +61,6 @@ public class OnDamageListener implements Listener {
             }
         }
 
-        if ((damager == player || event.getDamageSource().getCausingEntity() == player) && hitSelf) {
-            event.setCancelled(false);
-            return;
-        }
-
         // Check for projectile attack
         if (event.getDamager() instanceof Projectile projectile && projectile.getShooter() instanceof Player shooter) {
             damager = shooter;
@@ -76,14 +71,35 @@ public class OnDamageListener implements Listener {
             }
 
             // Cancel if PvP is disabled for either player
-            if (PvpService.isPvpDisabled(player) || PvpService.isPvpDisabled(damager)) {
-                event.setCancelled(true);
+            if (!((damager == player || event.getDamageSource().getCausingEntity() == player) && hitSelf)) {
+                if (PvpService.isPvpDisabled(player) || PvpService.isPvpDisabled(damager)) {
+                    event.setCancelled(true);
+                }
             }
         }
 
         // Check for other attacks such as TNT
         if (event.getDamageSource().getCausingEntity() instanceof Player cause) {
-            if (PvpService.isPvpDisabled(player) || PvpService.isPvpDisabled(cause)) {
+            // Cancel if PvP is disabled for either player
+            if (!((damager == player || event.getDamageSource().getCausingEntity() == player) && hitSelf)) {
+                if (PvpService.isPvpDisabled(player) || PvpService.isPvpDisabled(cause)) {
+                    event.setCancelled(true);
+                    if (spawnParticles) {
+                        cause.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, Objects.requireNonNullElse(pet, player).getLocation(), 10);
+                    }
+                    if (sendFeedback) {
+                        TextComponent actionBarMessage = getActionBarMessage(pet, player, cause);
+                        cause.spigot().sendMessage(ChatMessageType.ACTION_BAR, actionBarMessage);
+                    }
+                    if (!event.isCancelled() && antiAbuse) {
+                        PvpService.setPvpCooldownTimestamp(player);
+                    }
+                    return;
+                }
+            }
+
+            // Cancel attack on own pet if friendlyFire is off
+            if (pet != null && !friendlyFire && (damager == player || event.getDamageSource().getCausingEntity() == player)) {
                 event.setCancelled(true);
                 if (spawnParticles) {
                     cause.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, Objects.requireNonNullElse(pet, player).getLocation(), 10);
