@@ -61,6 +61,11 @@ public class OnDamageListener implements Listener {
             }
         }
 
+        if ((damager == player || event.getDamageSource().getCausingEntity() == player) && hitSelf) {
+            event.setCancelled(false);
+            return;
+        }
+
         // Check for projectile attack
         if (event.getDamager() instanceof Projectile projectile && projectile.getShooter() instanceof Player shooter) {
             damager = shooter;
