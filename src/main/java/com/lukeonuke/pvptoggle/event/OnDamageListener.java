@@ -1,17 +1,16 @@
 package com.lukeonuke.pvptoggle.event;
 
-import com.lukeonuke.pvptoggle.PvpToggle;
 import com.lukeonuke.pvptoggle.service.ChatFormatterService;
 import com.lukeonuke.pvptoggle.service.PvpService;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Particle;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -21,38 +20,145 @@ public class OnDamageListener implements Listener {
     public static Boolean sendFeedback;
     public static Boolean hitSelf;
     public static Boolean spawnParticles;
+    public static Boolean protectPets;
+    public static Boolean friendlyFire;
+    public static String petPvpMessage;
+    public static String ffMessage;
 
     public OnDamageListener(String feedbackMessage) {
         OnDamageListener.feedbackMessage = feedbackMessage;
     }
 
-    @EventHandler()
+    @EventHandler
     public void onHit(EntityDamageByEntityEvent event) {
-        if(!(event.getEntity() instanceof Player player)) return;
+        Entity entity = event.getEntity();
+        Player player;
+        Tameable pet = null;
+
+        // Determine if the entity is a pet and retrieve the owner
+        if (entity instanceof Tameable) {
+            pet = (Tameable) entity;
+            if (pet.getOwner() instanceof Player) {
+                player = (Player) pet.getOwner();
+            } else return;
+        } else if (!(entity instanceof Player)) return;
+        else player = (Player) entity;
+
         Player damager = null;
-        if (event.getDamager() instanceof Player damagerLocal
-                && (PvpService.isPvpDisabled(damagerLocal) || PvpService.isPvpDisabled(player))) {
+
+        // Check for direct melee attack
+        if (event.getDamager() instanceof Player damagerLocal) {
             damager = damagerLocal;
-            event.setCancelled(true);
+
+            // Cancel PvP if either player has it disabled
+            if (PvpService.isPvpDisabled(damager) || PvpService.isPvpDisabled(player)) {
+                event.setCancelled(true);
+            }
+
+            // Cancel attack on pet if friendlyFire is off and damager is the pet's owner
+            if (pet != null && !friendlyFire && damager.equals(player)) {
+                event.setCancelled(true);
+            }
         }
 
-        // If a player hits themselves and hit-self is true, make them take damage.
-        if (event.getDamager() instanceof Projectile projectile && projectile.getShooter() instanceof Player projectileOwner && hitSelf) {
-            damager = projectileOwner;
-            if (player.equals(projectileOwner)) return;
-            if (PvpService.isPvpDisabled(player)) event.setCancelled(true);
-            if (PvpService.isPvpDisabled(projectileOwner)) event.setCancelled(true);
+        // Check for projectile attack
+        if (event.getDamager() instanceof Projectile projectile && projectile.getShooter() instanceof Player shooter) {
+            damager = shooter;
+
+            // Cancel attack on own pet if friendlyFire is off
+            if (pet != null && !friendlyFire && damager.equals(player)) {
+                event.setCancelled(true);
+            }
+
+            // Cancel if PvP is disabled for either player
+            if (!((damager == player || event.getDamageSource().getCausingEntity() == player) && hitSelf)) {
+                if (PvpService.isPvpDisabled(player) || PvpService.isPvpDisabled(damager)) {
+                    event.setCancelled(true);
+                }
+            }
         }
 
-        // If a player is hit by another player, but is protected, spawn particles and send a message to the attacker.
-        if (event.isCancelled() && Objects.nonNull(damager)) {
-            if (spawnParticles) damager.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, player.getLocation(), 10);
-            if (sendFeedback) damager.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText((ChatFormatterService.addPrefix(feedbackMessage.replace("%s", player.getDisplayName() + ChatColor.RESET)))));
+        // Check for other attacks such as TNT
+        if (event.getDamageSource().getCausingEntity() instanceof Player cause) {
+            // Cancel if PvP is disabled for either player
+            if (!((damager == player || event.getDamageSource().getCausingEntity() == player) && hitSelf)) {
+                if (PvpService.isPvpDisabled(player) || PvpService.isPvpDisabled(cause)) {
+                    event.setCancelled(true);
+                    if (spawnParticles) {
+                        cause.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, Objects.requireNonNullElse(pet, player).getLocation(), 10);
+                    }
+                    if (sendFeedback) {
+                        TextComponent actionBarMessage = getActionBarMessage(pet, player, cause);
+                        cause.spigot().sendMessage(ChatMessageType.ACTION_BAR, actionBarMessage);
+                    }
+                    if (!event.isCancelled() && antiAbuse) {
+                        PvpService.setPvpCooldownTimestamp(player);
+                    }
+                    return;
+                }
+            }
+
+            // Cancel attack on own pet if friendlyFire is off
+            if (pet != null && !friendlyFire && (damager == player || event.getDamageSource().getCausingEntity() == player)) {
+                event.setCancelled(true);
+                if (spawnParticles) {
+                    cause.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, Objects.requireNonNullElse(pet, player).getLocation(), 10);
+                }
+                if (sendFeedback) {
+                    TextComponent actionBarMessage = getActionBarMessage(pet, player, cause);
+                    cause.spigot().sendMessage(ChatMessageType.ACTION_BAR, actionBarMessage);
+                }
+                if (!event.isCancelled() && antiAbuse) {
+                    PvpService.setPvpCooldownTimestamp(player);
+                }
+                return;
+            }
         }
 
-        // If a player is hit by another player, is vulnerable, and anti-abuse is true, restart the damaged player's cooldown.
+        // Check if attacked by a tameable entity
+        if (event.getDamager() instanceof Tameable tameableAttacker) {
+            if (tameableAttacker.getOwner() instanceof Player attackerOwner) {
+                // Cancel if PvP is disabled for either the player or the owner of the tameable attacker
+                if (PvpService.isPvpDisabled(player) || PvpService.isPvpDisabled(attackerOwner)) {
+                    event.setCancelled(true);
+                    if (tameableAttacker instanceof Wolf wolf) {
+                        wolf.setAngry(false);
+                    }
+                }
+            }
+        }
+
+        // If attack is cancelled, handle feedback and particles
+        if (event.isCancelled() && damager != null) {
+            if (spawnParticles) {
+                damager.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, Objects.requireNonNullElse(pet, player).getLocation(), 10);
+            }
+
+            // Send feedback message to the attacker
+            if (sendFeedback) {
+                TextComponent actionBarMessage = getActionBarMessage(pet, player, damager);
+                damager.spigot().sendMessage(ChatMessageType.ACTION_BAR, actionBarMessage);
+            }
+        }
+
+        // Handle anti-abuse cooldown if attack is not cancelled
         if (!event.isCancelled() && antiAbuse) {
             PvpService.setPvpCooldownTimestamp(player);
         }
+    }
+
+    private static @NotNull TextComponent getActionBarMessage(Tameable pet, Player player, Player damager) {
+        String message;
+        if (pet != null) {
+            if (damager.equals(player)) message = ChatFormatterService.addPrefix(ffMessage);
+            else message = ChatFormatterService.addPrefix(
+                    petPvpMessage.replace("%s", player.getDisplayName() + ChatColor.RESET).replace("%r", pet.getName())
+            );
+        } else {
+            message = ChatFormatterService.addPrefix(
+                    feedbackMessage.replace("%s", player.getDisplayName() + ChatColor.RESET)
+            );
+        }
+        return new TextComponent(message);
     }
 }

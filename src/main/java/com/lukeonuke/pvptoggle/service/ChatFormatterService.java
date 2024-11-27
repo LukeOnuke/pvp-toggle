@@ -7,9 +7,11 @@ public class ChatFormatterService {
     public static String addPrefix(String text){
         return prefix + " " + ChatColor.RESET + text;
     }
+    public static String enabled;
+    public static String disabled;
 
     public static String booleanHumanReadable(boolean b){
-        return (b ? ChatColor.RED + "Vulnerable" : ChatColor.GREEN + "Protected") + ChatColor.RESET;
+        return (b ? enabled : disabled) + ChatColor.RESET;
     }
 
     public static String formatTime(long ms) {
