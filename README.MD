@@ -12,5 +12,6 @@ Let your players choose when they want fight! When a player is protected, **they
 | `/pvp <user>` | Toggle pvp for user | `pvptoggle.pvp.others` |
 | `/pvp reload` | Reload the plugin   | `pvptoggle.reload`     |
 
-> pvp-toggle IS NOT AFFILIATED WITH Microsoft Corporation, Minecraft IS A REGISTERED TRADEMARK OF Microsoft Corporation
-> pvp-toggle IS NOT AFFILIATED WITH Rinth Inc, "Modrith" IS A REGISTERED TRADEMARK OF Rinth Inc
+pvp-toggle IS NOT AFFILIATED WITH Microsoft Corporation, Minecraft IS A REGISTERED TRADEMARK OF Microsoft Corporation
+
+pvp-toggle IS NOT AFFILIATED WITH Rinth Inc, "Modrith" IS A REGISTERED TRADEMARK OF Rinth Inc
