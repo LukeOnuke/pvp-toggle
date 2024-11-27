@@ -1,5 +1,5 @@
 # PVP Toggle
-[![Available on Modrith]https://img.shields.io/badge/available-on_modrinth-green)
+[![Available on Modrith](https://img.shields.io/badge/available-on_modrinth-green)](https://modrinth.com/plugin/pvp-toggle)
 ![Modrinth Downloads](https://img.shields.io/modrinth/dt/XIb24zNt)
 
 Let your players choose when they want fight! When a player is protected, **they can't get damaged by other players** and also **can't damage other players themselves.**
