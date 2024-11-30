@@ -102,7 +102,7 @@ public class OnDamageListener implements Listener {
             if (pet != null && !friendlyFire && (damager == player || event.getDamageSource().getCausingEntity() == player)) {
                 event.setCancelled(true);
                 if (spawnParticles) {
-                    cause.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, Objects.requireNonNullElse(pet, player).getLocation(), 10);
+                    cause.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, pet.getLocation(), 10);
                 }
                 if (sendFeedback) {
                     TextComponent actionBarMessage = getActionBarMessage(pet, player, cause);
@@ -115,13 +115,13 @@ public class OnDamageListener implements Listener {
             }
         }
 
-        // Check if attacked by a tameable entity
-        if (event.getDamager() instanceof Tameable tameableAttacker) {
-            if (tameableAttacker.getOwner() instanceof Player attackerOwner) {
-                // Cancel if PvP is disabled for either the player or the owner of the tameable attacker
+        // Check if attacked by a tamable entity
+        if (event.getDamager() instanceof Tameable tamableAttacker) {
+            if (tamableAttacker.getOwner() instanceof Player attackerOwner) {
+                // Cancel if PvP is disabled for either the player or the owner of the tamable attacker
                 if (PvpService.isPvpDisabled(player) || PvpService.isPvpDisabled(attackerOwner)) {
                     event.setCancelled(true);
-                    if (tameableAttacker instanceof Wolf wolf) {
+                    if (tamableAttacker instanceof Wolf wolf) {
                         wolf.setAngry(false);
                     }
                 }
@@ -143,6 +143,7 @@ public class OnDamageListener implements Listener {
 
         // Handle anti-abuse cooldown if attack is not cancelled
         if (!event.isCancelled() && antiAbuse) {
+            if(Objects.isNull(player)) return;
             PvpService.setPvpCooldownTimestamp(player);
         }
     }

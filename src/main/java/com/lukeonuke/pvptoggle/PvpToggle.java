@@ -29,7 +29,7 @@ public final class PvpToggle extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new OnPlayerDeathListener(), this);
         Bukkit.getPluginManager().registerEvents(new OnPlayerQuit(), this);
         Bukkit.getPluginManager().registerEvents(new OnPlayerJoin(), this);
-        plugin.getLogger().info("PVPToggle has been registered.");
+        plugin.getLogger().info("PVPToggle has been registered. o/");
     }
 
     public void onDisable() {
