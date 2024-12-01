@@ -36,7 +36,6 @@ public final class PvpToggle extends JavaPlugin {
         }
 
         plugin.getLogger().info("PVPToggle has been registered. o/");
-        plugin.getLogger().warning("This is an experimental version of pvp-toggle. Thread carefully.");
     }
 
     public void onDisable() {

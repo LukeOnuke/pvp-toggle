@@ -3,7 +3,7 @@
 ![Modrinth Downloads](https://img.shields.io/modrinth/dt/XIb24zNt)
 [![Discord](https://img.shields.io/discord/790676398602715208)](https://discord.gg/HAS9rmcWZF)
 
-Let your players choose when they want fight! When a player is protected, **they can't get damaged by other players** and also **can't damage other players themselves.**
+Let your players choose when they want to fight! When a player is protected, **they can't get damaged by other players** and also **can't damage other players themselves.**
 
 Extensive configuration!
 
@@ -18,6 +18,11 @@ Extensive configuration!
 pvp-toggle IS NOT AFFILIATED WITH Microsoft Corporation, Minecraft IS A REGISTERED TRADEMARK OF Microsoft Corporation
 
 pvp-toggle IS NOT AFFILIATED WITH Rinth Inc, "Modrith" IS A REGISTERED TRADEMARK OF Rinth Inc
+
+# PlaceholderAPI Integration
+This plugin supports PlaceholderAPI, and comes with the following placeholders.
+- `%pvp-toggle_vulnerable%` Is the player Vulnerable?
+- More comming soon
 
 # Default config
 ```yml

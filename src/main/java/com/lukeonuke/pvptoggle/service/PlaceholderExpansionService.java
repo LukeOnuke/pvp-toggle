@@ -19,7 +19,7 @@ public class PlaceholderExpansionService extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getVersion() {
-        return "2.0.0-SNAPSHOT";
+        return "2.0.0";
     }
 
     @Override
@@ -27,6 +27,7 @@ public class PlaceholderExpansionService extends PlaceholderExpansion {
         if(params.equals("_vulnerable")){
             return ChatFormatterService.booleanHumanReadable(!PvpService.isPvpDisabled(player));
         }
+        // TODO: PVP State placeholder.
         return null;
     }
 }
