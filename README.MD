@@ -15,10 +15,6 @@ Extensive configuration!
 | `/pvp <user>` | Toggle pvp for user | `pvptoggle.pvp.others` |
 | `/pvp reload` | Reload the plugin   | `pvptoggle.reload`     |
 
-pvp-toggle IS NOT AFFILIATED WITH Microsoft Corporation, Minecraft IS A REGISTERED TRADEMARK OF Microsoft Corporation
-
-pvp-toggle IS NOT AFFILIATED WITH Rinth Inc, "Modrith" IS A REGISTERED TRADEMARK OF Rinth Inc
-
 # PlaceholderAPI Integration
 This plugin supports PlaceholderAPI, and comes with the following placeholders.
 - `%pvp-toggle_vulnerable%` Is the player Vulnerable?
@@ -111,3 +107,7 @@ remote-toggle-message: "%s is now %r"
 disabled: "§aProtected"
 enabled: "§cVulnerable"
 ```
+
+> pvp-toggle IS NOT AFFILIATED WITH Microsoft Corporation, Minecraft IS A REGISTERED TRADEMARK OF Microsoft Corporation
+> 
+> pvp-toggle IS NOT AFFILIATED WITH Rinth Inc, "Modrith" IS A REGISTERED TRADEMARK OF Rinth Inc
