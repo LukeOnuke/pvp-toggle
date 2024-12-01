@@ -5,6 +5,7 @@ import com.lukeonuke.pvptoggle.event.OnPlayerDeathListener;
 import com.lukeonuke.pvptoggle.event.OnPlayerJoin;
 import com.lukeonuke.pvptoggle.event.OnPlayerQuit;
 import com.lukeonuke.pvptoggle.service.ChatFormatterService;
+import com.lukeonuke.pvptoggle.service.PlaceholderExpansionService;
 import com.lukeonuke.pvptoggle.service.PvpService;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -29,7 +30,13 @@ public final class PvpToggle extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new OnPlayerDeathListener(), this);
         Bukkit.getPluginManager().registerEvents(new OnPlayerQuit(), this);
         Bukkit.getPluginManager().registerEvents(new OnPlayerJoin(), this);
+
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            new PlaceholderExpansionService().register();
+        }
+
         plugin.getLogger().info("PVPToggle has been registered. o/");
+        plugin.getLogger().warning("This is an experimental version of pvp-toggle. Thread carefully.");
     }
 
     public void onDisable() {
