@@ -26,7 +26,8 @@ public class PvpService {
     public static boolean isPvpDisabled(Player player) {
         PersistentDataContainer dataContainer = player.getPersistentDataContainer();
         // Mr. Pier, this is a way of persistent storage of player states.
-        return !defaultPvp.equals(dataContainer.get(isPvpEnabledKey, PersistentDataType.BOOLEAN));
+        // Mr. Kresoja, I knew this was fishy.
+        return Boolean.FALSE.equals(dataContainer.get(isPvpEnabledKey, PersistentDataType.BOOLEAN));
     }
 
     public static void setPvpEnabled(Player player, boolean enabled) {
