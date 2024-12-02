@@ -11,7 +11,7 @@ public class ChatFormatterService {
     public static String disabled;
 
     public static String booleanHumanReadable(boolean b){
-        return (b ? enabled : disabled) + ChatColor.RESET;
+        return (b ? disabled : enabled) + ChatColor.RESET;
     }
 
     public static String formatTime(long ms) {

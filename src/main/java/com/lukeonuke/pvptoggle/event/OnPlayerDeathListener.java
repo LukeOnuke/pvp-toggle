@@ -28,8 +28,7 @@ public class OnPlayerDeathListener implements Listener {
         if (deathStatusReset) {
             PvpService.setPvpEnabled(player, deathStatus);
             if (!deathMessage.isEmpty()) {
-                boolean isPvpEnabled = PvpService.isPvpDisabled(player);
-                player.sendMessage(ChatFormatterService.addPrefix(deathMessage.replace("%s", ChatFormatterService.booleanHumanReadable(!isPvpEnabled))));
+                player.sendMessage(ChatFormatterService.addPrefix(deathMessage.replace("%s", ChatFormatterService.booleanHumanReadable(PvpService.isPvpEnabled(player)))));
             }
         }
         if (deathCooldown >= 0) {

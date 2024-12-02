@@ -33,14 +33,14 @@ public class PvpCommand implements CommandExecutor{
                 return true;
             }
 
-            if (!PvpService.isPvpCooldownDone(player) && !PvpService.isPvpDisabled(player)) {
+            if (!PvpService.isPvpCooldownDone(player) && PvpService.isPvpEnabled(player)) {
                 long remainingCooldownMs = PvpService.getPvpCooldownTimestamp(player).toEpochMilli() + (cooldownDuration * 1000 + 1000) - Instant.now().toEpochMilli();
                 commandSender.sendMessage(ChatFormatterService.addPrefix(cooldownMessage.replace("%s", ChatFormatterService.formatTime(remainingCooldownMs))));
                 return true;
             }
 
-            boolean isPvpEnabled = PvpService.isPvpDisabled(player);
-            PvpService.setPvpEnabled(player, isPvpEnabled);
+            boolean isPvpEnabled = PvpService.isPvpEnabled(player);
+            PvpService.setPvpEnabled(player, !isPvpEnabled);
             commandSender.sendMessage(ChatFormatterService.addPrefix(toggleMessage.replace("%s", ChatFormatterService.booleanHumanReadable(isPvpEnabled))));
         }
         else if (args[0].equals("reload")) {
@@ -65,8 +65,8 @@ public class PvpCommand implements CommandExecutor{
                     continue;
                 }
 
-                boolean isPvpEnabled = PvpService.isPvpDisabled(player);
-                PvpService.setPvpEnabled(player, isPvpEnabled);
+                boolean isPvpEnabled = PvpService.isPvpEnabled(player);
+                PvpService.setPvpEnabled(player, !isPvpEnabled);
                 commandSender.sendMessage(ChatFormatterService.addPrefix(remoteToggleMessage.replace("%s", player.getName()).replace("%r", ChatFormatterService.booleanHumanReadable(isPvpEnabled))));
             }
         }

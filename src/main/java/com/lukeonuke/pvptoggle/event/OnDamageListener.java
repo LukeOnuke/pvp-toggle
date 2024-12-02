@@ -51,7 +51,7 @@ public class OnDamageListener implements Listener {
             damager = damagerLocal;
 
             // Cancel PvP if either player has it disabled
-            if (PvpService.isPvpDisabled(damager) || PvpService.isPvpDisabled(player)) {
+            if (!PvpService.isPvpEnabled(damager) || !PvpService.isPvpEnabled(player)) {
                 event.setCancelled(true);
             }
 
@@ -72,7 +72,7 @@ public class OnDamageListener implements Listener {
 
             // Cancel if PvP is disabled for either player
             if (!((damager == player || event.getDamageSource().getCausingEntity() == player) && hitSelf)) {
-                if (PvpService.isPvpDisabled(player) || PvpService.isPvpDisabled(damager)) {
+                if (!PvpService.isPvpEnabled(player) || !PvpService.isPvpEnabled(damager)) {
                     event.setCancelled(true);
                 }
             }
@@ -82,7 +82,7 @@ public class OnDamageListener implements Listener {
         if (event.getDamageSource().getCausingEntity() instanceof Player cause) {
             // Cancel if PvP is disabled for either player
             if (!((damager == player || event.getDamageSource().getCausingEntity() == player) && hitSelf)) {
-                if (PvpService.isPvpDisabled(player) || PvpService.isPvpDisabled(cause)) {
+                if (!PvpService.isPvpEnabled(player) || !PvpService.isPvpEnabled(cause)) {
                     event.setCancelled(true);
                     if (spawnParticles) {
                         cause.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, Objects.requireNonNullElse(pet, player).getLocation(), 10);
@@ -119,7 +119,7 @@ public class OnDamageListener implements Listener {
         if (event.getDamager() instanceof Tameable tamableAttacker) {
             if (tamableAttacker.getOwner() instanceof Player attackerOwner) {
                 // Cancel if PvP is disabled for either the player or the owner of the tamable attacker
-                if (PvpService.isPvpDisabled(player) || PvpService.isPvpDisabled(attackerOwner)) {
+                if (!PvpService.isPvpEnabled(player) || !PvpService.isPvpEnabled(attackerOwner)) {
                     event.setCancelled(true);
                     if (tamableAttacker instanceof Wolf wolf) {
                         wolf.setAngry(false);

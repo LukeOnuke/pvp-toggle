@@ -5,6 +5,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.Instant;
 import java.util.Objects;
@@ -23,21 +24,26 @@ public class PvpService {
     private static final ConcurrentHashMap<Player, ScheduledFuture<?>> activeTasks = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<String, Long> expirationTimes = new ConcurrentHashMap<>();
 
-    public static boolean isPvpDisabled(Player player) {
+    public static boolean isPvpEnabled(@NotNull Player player) {
         PersistentDataContainer dataContainer = player.getPersistentDataContainer();
         // Mr. Pier, this is a way of persistent storage of player states.
-        return !defaultPvp.equals(dataContainer.get(isPvpEnabledKey, PersistentDataType.BOOLEAN));
+        // Mr. Kresoja, this is severely scuffed.
+        return Boolean.TRUE.equals(dataContainer.get(isPvpEnabledKey, PersistentDataType.BOOLEAN));
     }
 
     public static void setPvpEnabled(Player player, boolean enabled) {
         PersistentDataContainer dataContainer = player.getPersistentDataContainer();
-        dataContainer.set(isPvpEnabledKey, PersistentDataType.BOOLEAN, !enabled);
+        dataContainer.set(isPvpEnabledKey, PersistentDataType.BOOLEAN, enabled);
         dataContainer.set(pvpToggledTimestamp, PersistentDataType.LONG, Instant.now().toEpochMilli());
 
         if (limitedTime < 0) return;
+
         if (enabled) {
-            // pvp enabled, remove any existing task
-            activeTasks.remove(player);
+            // pvp enabled, cancel any existing task
+            ScheduledFuture<?> existingTask = activeTasks.remove(player);
+            if (existingTask != null) {
+                existingTask.cancel(false); // cancel the task
+            }
         } else {
             // pvp disabled, schedule a task to re-enable it after the timer
             ScheduledFuture<?> existingTask = activeTasks.get(player);
@@ -50,7 +56,8 @@ public class PvpService {
                     setPvpEnabled(player, true);
                     if (!limitedMessage.isEmpty()) {
                         player.sendMessage(ChatFormatterService.addPrefix(
-                                limitedMessage.replace("%s", ChatFormatterService.booleanHumanReadable(true))));
+                                limitedMessage.replace("%s",
+                                        ChatFormatterService.booleanHumanReadable(false))));
                     }
                 } else {
                     resetPvpStatus(player);
@@ -61,6 +68,7 @@ public class PvpService {
             activeTasks.put(player, scheduledTask);
         }
     }
+
 
     public static void handlePlayerLeave(Player player) {
         ScheduledFuture<?> existingTask = activeTasks.remove(player);
@@ -81,10 +89,12 @@ public class PvpService {
 
         if (expirationTime != null) {
             if (System.currentTimeMillis() > expirationTime) {
-                setPvpEnabled(player, true); // Protection expired, set to vulnerable
-                expirationTimes.remove(uuid);
-                player.sendMessage(ChatFormatterService.addPrefix(
-                        limitedMessage.replace("%s", ChatFormatterService.booleanHumanReadable(true))));
+                setPvpEnabled(player, true);
+                if (!limitedMessage.isEmpty()) {
+                    player.sendMessage(ChatFormatterService.addPrefix(
+                            limitedMessage.replace("%s",
+                                    ChatFormatterService.booleanHumanReadable(false))));
+                }
             } else {
                 setPvpEnabled(player, false); // still within protection window, remain protected
             }

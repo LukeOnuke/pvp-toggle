@@ -25,7 +25,7 @@ public class PlaceholderExpansionService extends PlaceholderExpansion {
     @Override
     public @Nullable String onPlaceholderRequest(Player player, @NotNull String params) {
         if(params.equals("_vulnerable")){
-            return ChatFormatterService.booleanHumanReadable(!PvpService.isPvpDisabled(player));
+            return ChatFormatterService.booleanHumanReadable(PvpService.isPvpEnabled(player));
         }
         // TODO: PVP State placeholder.
         return null;
