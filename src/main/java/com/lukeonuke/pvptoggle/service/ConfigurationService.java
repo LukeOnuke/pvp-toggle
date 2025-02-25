@@ -21,7 +21,6 @@ public class ConfigurationService {
 
     public void load() {
         final Plugin plugin = PvpToggle.getPlugin();
-        ;
         FileConfiguration config = plugin.getConfig();
 
         antiAbuse = config.getBoolean("anti-abuse", true);

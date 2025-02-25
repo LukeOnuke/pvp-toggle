@@ -5,6 +5,7 @@ import com.lukeonuke.pvptoggle.event.OnPlayerDeathListener;
 import com.lukeonuke.pvptoggle.event.OnPlayerJoin;
 import com.lukeonuke.pvptoggle.event.OnPlayerQuit;
 import com.lukeonuke.pvptoggle.service.ChatFormatterService;
+import com.lukeonuke.pvptoggle.service.ConfigurationService;
 import com.lukeonuke.pvptoggle.service.PlaceholderExpansionService;
 import com.lukeonuke.pvptoggle.service.PvpService;
 import lombok.Getter;
@@ -50,6 +51,7 @@ public final class PvpToggle extends JavaPlugin {
     }
 
     private void load() {
-
+        final ConfigurationService cs = ConfigurationService.getInstance();
+        cs.load();
     }
 }
