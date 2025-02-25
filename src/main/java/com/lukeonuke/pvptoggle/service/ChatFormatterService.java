@@ -3,15 +3,15 @@ package com.lukeonuke.pvptoggle.service;
 import org.bukkit.ChatColor;
 
 public class ChatFormatterService {
-    public static String prefix;
     public static String addPrefix(String text){
-        return prefix + " " + ChatColor.RESET + text;
+        final ConfigurationService cs = ConfigurationService.getInstance();
+        return cs.getPrefix() + " " + ChatColor.RESET + text;
     }
-    public static String enabled;
-    public static String disabled;
+
 
     public static String booleanHumanReadable(boolean b){
-        return (b ? disabled : enabled) + ChatColor.RESET;
+        final ConfigurationService cs = ConfigurationService.getInstance();
+        return (b ? cs.getDisabled() : cs.getEnabled()) + ChatColor.RESET;
     }
 
     public static String formatTime(long ms) {

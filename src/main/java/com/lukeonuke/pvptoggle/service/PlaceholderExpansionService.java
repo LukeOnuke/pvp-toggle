@@ -27,7 +27,9 @@ public class PlaceholderExpansionService extends PlaceholderExpansion {
         if(params.equals("vulnerable")){
             return ChatFormatterService.booleanHumanReadable(PvpService.isPvpEnabled(player));
         }
-        // TODO: PVP State placeholder.
+        if(params.equals("boolvulnerable")){
+            return String.valueOf(PvpService.isPvpEnabled(player));
+        }
         return null;
     }
 }

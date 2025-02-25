@@ -14,10 +14,6 @@ import java.util.concurrent.*;
 public class PvpService {
     private static final NamespacedKey isPvpEnabledKey = new NamespacedKey(PvpToggle.getPlugin(), "isPvpEnabled");
     private static final NamespacedKey pvpToggledTimestamp = new NamespacedKey(PvpToggle.getPlugin(), "pvpToggledTimestamp");
-    public static Boolean defaultPvp;
-    public static Integer limitedTime;
-    public static String limitedMessage;
-    public static Integer cooldownDuration;
 
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
@@ -32,11 +28,13 @@ public class PvpService {
     }
 
     public static void setPvpEnabled(Player player, boolean enabled) {
+        final ConfigurationService configurationService = ConfigurationService.getInstance();
+
         PersistentDataContainer dataContainer = player.getPersistentDataContainer();
         dataContainer.set(isPvpEnabledKey, PersistentDataType.BOOLEAN, enabled);
         dataContainer.set(pvpToggledTimestamp, PersistentDataType.LONG, Instant.now().toEpochMilli());
 
-        if (limitedTime < 0) return;
+        if (configurationService.getLimitedTime() < 0) return;
 
         if (enabled) {
             // pvp enabled, cancel any existing task
@@ -54,9 +52,9 @@ public class PvpService {
             Runnable task = () -> {
                 if (player.isOnline()) {
                     setPvpEnabled(player, true);
-                    if (!limitedMessage.isEmpty()) {
+                    if (!configurationService.getLimitedMessage().isEmpty()) {
                         player.sendMessage(ChatFormatterService.addPrefix(
-                                limitedMessage.replace("%s",
+                                configurationService.getLimitedMessage().replace("%s",
                                         ChatFormatterService.booleanHumanReadable(false))));
                     }
                 } else {
@@ -64,25 +62,29 @@ public class PvpService {
                 }
             };
 
-            ScheduledFuture<?> scheduledTask = scheduler.schedule(task, limitedTime, TimeUnit.SECONDS);
+            ScheduledFuture<?> scheduledTask = scheduler.schedule(task, configurationService.getLimitedTime(), TimeUnit.SECONDS);
             activeTasks.put(player, scheduledTask);
         }
     }
 
 
     public static void handlePlayerLeave(Player player) {
+        final ConfigurationService configurationService = ConfigurationService.getInstance();
+
         ScheduledFuture<?> existingTask = activeTasks.remove(player);
         if (existingTask != null) {
             existingTask.cancel(false);
         }
-        expirationTimes.put(player.getUniqueId().toString(), System.currentTimeMillis() + limitedTime * 1000);
+        expirationTimes.put(player.getUniqueId().toString(), System.currentTimeMillis() + configurationService.getLimitedTime() * 1000);
     }
 
     public static void handlePlayerJoin(Player player) {
+        final ConfigurationService configurationService = ConfigurationService.getInstance();
+
         String uuid = player.getUniqueId().toString();
         Long expirationTime = expirationTimes.get(uuid);
 
-        if (limitedTime < 0) {
+        if (configurationService.getLimitedTime() < 0) {
             // if limited-time is disabled, do nothing and keep the current pvp state
             return;
         }
@@ -90,9 +92,9 @@ public class PvpService {
         if (expirationTime != null) {
             if (System.currentTimeMillis() > expirationTime) {
                 setPvpEnabled(player, true);
-                if (!limitedMessage.isEmpty()) {
+                if (!configurationService.getLimitedMessage().isEmpty()) {
                     player.sendMessage(ChatFormatterService.addPrefix(
-                            limitedMessage.replace("%s",
+                            configurationService.getLimitedMessage().replace("%s",
                                     ChatFormatterService.booleanHumanReadable(false))));
                 }
             } else {
@@ -105,8 +107,9 @@ public class PvpService {
 
 
     private static void resetPvpStatus(Player player) {
+        final ConfigurationService configurationService = ConfigurationService.getInstance();
         PersistentDataContainer dataContainer = player.getPersistentDataContainer();
-        dataContainer.set(isPvpEnabledKey, PersistentDataType.BOOLEAN, defaultPvp);
+        dataContainer.set(isPvpEnabledKey, PersistentDataType.BOOLEAN, configurationService.getDefaultPvp());
     }
 
     public static void setPvpCooldownTimestamp(Player player) {
@@ -123,7 +126,8 @@ public class PvpService {
     }
 
     public static boolean isPvpCooldownDone(Player player) {
-        return Instant.now().isAfter(Instant.ofEpochMilli(getPvpCooldownTimestamp(player).toEpochMilli() + cooldownDuration * 1000));
+        final ConfigurationService configurationService = ConfigurationService.getInstance();
+        return Instant.now().isAfter(Instant.ofEpochMilli(getPvpCooldownTimestamp(player).toEpochMilli() + configurationService.getCooldownDuration() * 1000));
     }
 
     public static void shutdown() {
