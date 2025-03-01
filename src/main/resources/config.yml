@@ -19,7 +19,7 @@ anti-abuse: true
 hit-self: true
 
 # Should particles be spawned when a player is hit, but protected?
-particles: false
+particles: true
 
 # Should a message be sent to a player when they hit another player, but fail because that player is protected?
 feedback: true
