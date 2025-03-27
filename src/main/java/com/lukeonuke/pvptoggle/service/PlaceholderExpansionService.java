@@ -5,6 +5,9 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Contains PAPI (placeholder api) integration.
+ */
 public class PlaceholderExpansionService extends PlaceholderExpansion {
 
     @Override

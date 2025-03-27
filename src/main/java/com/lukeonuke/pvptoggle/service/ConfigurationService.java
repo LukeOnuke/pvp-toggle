@@ -5,20 +5,31 @@ import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 
+/**
+ * Singleton class used for configuration state management and the API for getting/setting configuration fields.
+ * Refactored from the static fields that used to "hold" the configuration state in a quite un-OOP manner.
+ * @since 3.0.0
+ * */
 @Getter
 public class ConfigurationService {
     private static ConfigurationService instance = null;
 
+
     private ConfigurationService() {
-
-
     }
 
+    /**
+     * Get the instance of <b>ConfigurationService</b>.
+     * */
     public static ConfigurationService getInstance() {
         if (instance == null) instance = new ConfigurationService();
         return instance;
     }
 
+    /**
+     * Load the configuration file into the <b>ConfigurationService</b> state.
+     * @since 3.0.0
+     * */
     public void load() {
         final Plugin plugin = PvpToggle.getPlugin();
         FileConfiguration config = plugin.getConfig();

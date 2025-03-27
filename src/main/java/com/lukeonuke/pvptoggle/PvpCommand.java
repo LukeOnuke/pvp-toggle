@@ -35,6 +35,7 @@ public class PvpCommand implements CommandExecutor{
 
             boolean isPvpEnabled = PvpService.isPvpEnabled(player);
             PvpService.setPvpEnabled(player, !isPvpEnabled);
+            isPvpEnabled = !isPvpEnabled; // Flip the isPvpEnabled flag so that the message sent out to the player is correct.
             commandSender.sendMessage(ChatFormatterService.addPrefix(cs.getToggleMessage()).replace("%s", ChatFormatterService.booleanHumanReadable(isPvpEnabled)));
         }
         else if (args[0].equals("reload")) {

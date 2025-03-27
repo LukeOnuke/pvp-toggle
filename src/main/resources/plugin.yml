@@ -8,6 +8,13 @@ commands:
     description: "Allow players to toggle PVP individually."
     usage: /<command>
     permission: pvptoggle.pvp
+  pvpstatus:
+    description: "See if their own PVP is toggled."
+    usage: /<command>
+    permission: pvptoggle.status
+    aliases:
+      - ps
+      - pstatus
 permissions :
   pvptoggle.pvp.others:
     description: "Allows the player to toggle PVP for other players."
@@ -18,3 +25,6 @@ permissions :
   pvptoggle.reload:
     description: "Reload the plugin."
     default: op
+  pvptoggle.status:
+    description: "See if their own PVP is toggled."
+    default: true
