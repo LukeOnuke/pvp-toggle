@@ -9,12 +9,12 @@ Extensive configuration!
 
 # Commands
  
-| Command       | Use                               | Permission             | Aliases         |
-|---------------|-----------------------------------|------------------------|-----------------|
-| `/pvp`        | Toggle pvp                        | `pvptoggle.pvp`        | N/A             |
-| `/pvp <user>` | Toggle pvp for user               | `pvptoggle.pvp.others` | N/A             |
-| `/pvp reload` | Reload the plugin                 | `pvptoggle.reload`     | N/A             |
-| `/pvpstatus`  | Get if you are protected from pvp | `pvptoggle.pvpstatus`  | `pstatus`, `ps` |
+| Command       | Use                               | Permission             | Aliases           |
+|---------------|-----------------------------------|------------------------|-------------------|
+| `/pvp`        | Toggle pvp                        | `pvptoggle.pvp`        | N/A               |
+| `/pvp <user>` | Toggle pvp for user               | `pvptoggle.pvp.others` | N/A               |
+| `/pvp reload` | Reload the plugin                 | `pvptoggle.reload`     | N/A               |
+| `/pvpstatus`  | Get if you are protected from pvp | `pvptoggle.pvpstatus`  | `/pstatus`, `/ps` |
 
 # PlaceholderAPI Integration
 This plugin supports **PlaceholderAPI**, and comes with the following placeholders.
