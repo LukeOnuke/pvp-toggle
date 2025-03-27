@@ -11,7 +11,7 @@ commands:
   pvpstatus:
     description: "See if their own PVP is toggled."
     usage: /<command>
-    permission: pvptoggle.status
+    permission: pvptoggle.pvpstatus
     aliases:
       - ps
       - pstatus
@@ -25,6 +25,6 @@ permissions :
   pvptoggle.reload:
     description: "Reload the plugin."
     default: op
-  pvptoggle.status:
+  pvptoggle.pvpstatus:
     description: "See if their own PVP is toggled."
     default: true

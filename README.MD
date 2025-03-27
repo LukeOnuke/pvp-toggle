@@ -9,16 +9,17 @@ Extensive configuration!
 
 # Commands
  
-| Command       | Use                 | Permission             |
-|---------------|---------------------|------------------------|
-| `/pvp`        | Toggle pvp          | `pvptoggle.pvp`        |
-| `/pvp <user>` | Toggle pvp for user | `pvptoggle.pvp.others` |
-| `/pvp reload` | Reload the plugin   | `pvptoggle.reload`     |
+| Command       | Use                               | Permission             | Aliases         |
+|---------------|-----------------------------------|------------------------|-----------------|
+| `/pvp`        | Toggle pvp                        | `pvptoggle.pvp`        | N/A             |
+| `/pvp <user>` | Toggle pvp for user               | `pvptoggle.pvp.others` | N/A             |
+| `/pvp reload` | Reload the plugin                 | `pvptoggle.reload`     | N/A             |
+| `/pvpstatus`  | Get if you are protected from pvp | `pvptoggle.pvpstatus`  | `pstatus`, `ps` |
 
 # PlaceholderAPI Integration
-This plugin supports PlaceholderAPI, and comes with the following placeholders.
-- `%pvp-toggle_vulnerable%` Is the player Vulnerable?
-- More comming soon
+This plugin supports **PlaceholderAPI**, and comes with the following placeholders.
+- `%pvp-toggle_vulnerable%` Is the player vulnerable, expressed in *configurable* human-readable language.
+- `%pvp-toggle_boolvulnerable%` Is the player vulnerable, expressed in `true` of `false`.
 
 # Default config
 ```yml
@@ -43,7 +44,7 @@ anti-abuse: true
 hit-self: true
 
 # Should particles be spawned when a player is hit, but protected?
-particles: false
+particles: true
 
 # Should a message be sent to a player when they hit another player, but fail because that player is protected?
 feedback: true
