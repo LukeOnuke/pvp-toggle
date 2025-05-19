@@ -16,8 +16,7 @@ import java.util.concurrent.*;
  */
 public class PvpService {
     private static final NamespacedKey isPvpEnabledKey = new NamespacedKey(PvpToggle.getPlugin(), "isPvpEnabled");
-    private static final NamespacedKey pvpToggledTimestamp = new NamespacedKey(PvpToggle.getPlugin(), "pvpToggledTimestamp");
-
+    private static final NamespacedKey pvpToggledTimestampKey = new NamespacedKey(PvpToggle.getPlugin(), "pvpToggledTimestamp");
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     private static final ConcurrentHashMap<Player, ScheduledFuture<?>> activeTasks = new ConcurrentHashMap<>();
@@ -45,7 +44,7 @@ public class PvpService {
 
         PersistentDataContainer dataContainer = player.getPersistentDataContainer();
         dataContainer.set(isPvpEnabledKey, PersistentDataType.BOOLEAN, enabled);
-        dataContainer.set(pvpToggledTimestamp, PersistentDataType.LONG, Instant.now().toEpochMilli());
+        dataContainer.set(pvpToggledTimestampKey, PersistentDataType.LONG, Instant.now().toEpochMilli());
 
         if (configurationService.getLimitedTime() < 0) return;
 
@@ -143,7 +142,7 @@ public class PvpService {
      */
     public static void setPvpCooldownTimestamp(Player player) {
         PersistentDataContainer dataContainer = player.getPersistentDataContainer();
-        dataContainer.set(pvpToggledTimestamp, PersistentDataType.LONG, Instant.now().toEpochMilli());
+        dataContainer.set(pvpToggledTimestampKey, PersistentDataType.LONG, Instant.now().toEpochMilli());
     }
 
     /**
@@ -152,10 +151,10 @@ public class PvpService {
      */
     public static Instant getPvpCooldownTimestamp(Player player) {
         PersistentDataContainer dataContainer = player.getPersistentDataContainer();
-        if (!dataContainer.has(pvpToggledTimestamp, PersistentDataType.LONG))
-            dataContainer.set(pvpToggledTimestamp, PersistentDataType.LONG, 0L);
+        if (!dataContainer.has(pvpToggledTimestampKey, PersistentDataType.LONG))
+            dataContainer.set(pvpToggledTimestampKey, PersistentDataType.LONG, 0L);
 
-        return Instant.ofEpochMilli(Objects.requireNonNull(dataContainer.get(pvpToggledTimestamp, PersistentDataType.LONG)));
+        return Instant.ofEpochMilli(Objects.requireNonNull(dataContainer.get(pvpToggledTimestampKey, PersistentDataType.LONG)));
     }
 
     /**

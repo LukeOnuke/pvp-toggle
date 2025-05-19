@@ -25,7 +25,9 @@ public class OnDamageListener implements Listener {
     public void onHit(EntityDamageByEntityEvent event) {
         Entity entity = event.getEntity();
         Player player;
+        Player damager = null;
         Tameable pet = null;
+        final ConfigurationService cs = ConfigurationService.getInstance();
 
         // Determine if the entity is a pet and retrieve the owner
         if (entity instanceof Tameable) {
@@ -35,10 +37,6 @@ public class OnDamageListener implements Listener {
             } else return;
         } else if (!(entity instanceof Player)) return;
         else player = (Player) entity;
-
-        Player damager = null;
-
-        final ConfigurationService cs = ConfigurationService.getInstance();
 
         // Check for direct melee attack
         if (event.getDamager() instanceof Player damagerLocal) {
@@ -78,6 +76,8 @@ public class OnDamageListener implements Listener {
             if (!((damager == player || event.getDamageSource().getCausingEntity() == player) && cs.getHitSelf())) {
                 if (!PvpService.isPvpEnabled(player) || !PvpService.isPvpEnabled(cause)) {
                     event.setCancelled(true);
+                    // Huh, why are the particles and feedback handled twice, should probably figure that out.
+                    // -lukeonuke 19/5/2025
                     if (cs.getSpawnParticles()) {
                         cause.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, Objects.requireNonNullElse(pet, player).getLocation(), 10);
                     }

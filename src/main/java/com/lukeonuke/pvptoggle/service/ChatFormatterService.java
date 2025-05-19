@@ -12,6 +12,8 @@ public class ChatFormatterService {
      * */
     public static String addPrefix(String text){
         final ConfigurationService cs = ConfigurationService.getInstance();
+        // If prefix is set to empty in the config, return without whitespace as per issue #17.
+        if (cs.getPrefix().isEmpty()) return ChatColor.RESET + text;
         return cs.getPrefix() + " " + ChatColor.RESET + text;
     }
 
