@@ -26,7 +26,7 @@ public class ChatFormatterService {
      * */
     public static String booleanHumanReadable(boolean b){
         final ConfigurationService cs = ConfigurationService.getInstance();
-        return (b ? cs.getDisabled() : cs.getEnabled()) + ChatColor.RESET;
+        return (b ? cs.getEnabled() : cs.getDisabled()) + ChatColor.RESET;
     }
 
     /**
