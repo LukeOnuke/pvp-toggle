@@ -5,6 +5,10 @@ prefix: "§4PvP »"
 # Should pvp be on by default?
 default-pvp: false
 
+# Do any worlds have PVPToggle disabled?
+disabled-worlds:
+#  - world
+
 # What is the message sent to players in the chat if they try to use the pvp command while on cooldown?
 # %s is replaced by the time remaining, in the format of "1 minute and 32 seconds" or "32 seconds"
 cooldown-message: "%s of cooldown remaining."

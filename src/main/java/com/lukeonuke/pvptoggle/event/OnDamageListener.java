@@ -1,5 +1,6 @@
 package com.lukeonuke.pvptoggle.event;
 
+import com.lukeonuke.pvptoggle.PvpToggle;
 import com.lukeonuke.pvptoggle.service.ChatFormatterService;
 import com.lukeonuke.pvptoggle.service.ConfigurationService;
 import com.lukeonuke.pvptoggle.service.PvpService;
@@ -35,13 +36,17 @@ public class OnDamageListener implements Listener {
             if (pet.getOwner() instanceof Player) {
                 player = (Player) pet.getOwner();
             } else return;
-        } else if (!(entity instanceof Player)) return;
+        } else if (!(entity instanceof Player)) return; // Stop handling event if entity !instanceof player.
         else player = (Player) entity;
+
+        // Cancel pvp handling if pvp is disabled in world
+        if(cs.getDisabledWorlds().contains(player.getWorld().getName())) {
+            return;
+        }
 
         // Check for direct melee attack
         if (event.getDamager() instanceof Player damagerLocal) {
             damager = damagerLocal;
-
             // Cancel PvP if either player has it disabled
             if (!PvpService.isPvpEnabled(damager) || !PvpService.isPvpEnabled(player)) {
                 event.setCancelled(true);

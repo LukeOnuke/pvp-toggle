@@ -5,6 +5,8 @@ import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 
+import java.util.List;
+
 /**
  * Singleton class used for configuration state management and the API for getting/setting configuration fields.
  * Refactored from the static fields that used to "hold" the configuration state in a quite un-OOP manner.
@@ -61,6 +63,7 @@ public class ConfigurationService {
         sendFeedback = config.getBoolean("feedback", false);
         spawnParticles = config.getBoolean("particles", false);
         toggleMessage = config.getString("toggle-message", "You are now %s");
+        disabledWorlds = config.getStringList("disabled-worlds");
     }
 
     private Boolean defaultPvp;
@@ -90,4 +93,5 @@ public class ConfigurationService {
     private String prefix;
     private String enabled;
     private String disabled;
+    private List<String> disabledWorlds;
 }
