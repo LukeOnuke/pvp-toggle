@@ -10,19 +10,49 @@ import java.util.List;
 /**
  * Singleton class used for configuration state management and the API for getting/setting configuration fields.
  * Refactored from the static fields that used to "hold" the configuration state in a quite un-OOP manner.
+ *
  * @since 3.0.0
- * */
+ */
 @Getter
 public class ConfigurationService {
     private static ConfigurationService instance = null;
 
+    private Boolean defaultPvp;
+    private Integer limitedTime;
+    private String limitedMessage;
+    private Integer cooldownDuration;
+    private String cooldownMessage;
+    private String toggleMessage;
+    private String consoleMessage;
+    private String reloadMessage;
+    private String permissionMessage;
+    private String notFoundMessage;
+    private String remoteToggleMessage;
+    private String feedbackMessage;
+    private Boolean antiAbuse;
+    private Boolean sendFeedback;
+    private Boolean hitSelf;
+    private Boolean spawnParticles;
+    private Boolean protectPets;
+    private Boolean friendlyFire;
+    private String petPvpMessage;
+    private String ffMessage;
+    private Boolean deathStatusReset;
+    private Boolean deathStatus;
+    private Integer deathCooldown;
+    private String deathMessage;
+    private String prefix;
+    private String enabled;
+    private String disabled;
+    private List<String> disabledWorlds;
+    private String pvpStatusMessage;
 
     private ConfigurationService() {
     }
 
     /**
      * Get the instance of <b>ConfigurationService</b>.
-     * */
+     */
     public static ConfigurationService getInstance() {
         if (instance == null) instance = new ConfigurationService();
         return instance;
@@ -30,8 +60,9 @@ public class ConfigurationService {
 
     /**
      * Load the configuration file into the <b>ConfigurationService</b> state.
+     *
      * @since 3.0.0
-     * */
+     */
     public void load() {
         final Plugin plugin = PvpToggle.getPlugin();
         FileConfiguration config = plugin.getConfig();
@@ -64,34 +95,6 @@ public class ConfigurationService {
         spawnParticles = config.getBoolean("particles", false);
         toggleMessage = config.getString("toggle-message", "You are now %s");
         disabledWorlds = config.getStringList("disabled-worlds");
+        pvpStatusMessage = config.getString("pvp-status-message", "Status of %s is now %s");
     }
-
-    private Boolean defaultPvp;
-    private Integer limitedTime;
-    private String limitedMessage;
-    private Integer cooldownDuration;
-    private String cooldownMessage;
-    private String toggleMessage;
-    private String consoleMessage;
-    private String reloadMessage;
-    private String permissionMessage;
-    private String notFoundMessage;
-    private String remoteToggleMessage;
-    private String feedbackMessage;
-    private Boolean antiAbuse;
-    private Boolean sendFeedback;
-    private Boolean hitSelf;
-    private Boolean spawnParticles;
-    private Boolean protectPets;
-    private Boolean friendlyFire;
-    private String petPvpMessage;
-    private String ffMessage;
-    private Boolean deathStatusReset;
-    private Boolean deathStatus;
-    private Integer deathCooldown;
-    private String deathMessage;
-    private String prefix;
-    private String enabled;
-    private String disabled;
-    private List<String> disabledWorlds;
 }

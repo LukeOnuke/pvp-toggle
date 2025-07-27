@@ -108,6 +108,11 @@ not-found-message: "%s isn't online."
 # %r is replaced with the new state, "Vulnerable" or "Protected" by default.
 remote-toggle-message: "%s is now %r"
 
+# What should the message be for checking pvp status?
+# %s is the name of the player
+# %r is the state; "Vulnerable" or "Protected" by default. (See: `disabled` and `enabled`)
+pvp-status-message: "Status of %s is now %r"
+
 # What should the words for the two states of pvp be?
 disabled: "§aProtected"
 enabled: "§cVulnerable"
