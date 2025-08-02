@@ -16,7 +16,7 @@ public class PVPStatusCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         final ConfigurationService cs = ConfigurationService.getInstance();
-        commandSender.sendMessage("pvp-toggle: This feature is experimental, and not implemented or tested fully!");
+
         Player player;
         if(args.length < 1){
             if (commandSender instanceof Player playerCommandSender) {
@@ -29,7 +29,6 @@ public class PVPStatusCommand implements CommandExecutor {
             player = Bukkit.getPlayerExact(args[0]);
 
             if(player == null){
-                //TODO: Send message
                 commandSender.sendMessage(String.format(cs.getNotFoundMessage(), args[0]));
                 return true;
             }
