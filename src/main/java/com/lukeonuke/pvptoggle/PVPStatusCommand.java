@@ -10,8 +10,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 public class PVPStatusCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -26,22 +24,16 @@ public class PVPStatusCommand implements CommandExecutor {
                 return true;
             }
         }else {
+            if (!commandSender.hasPermission("pvptoggle.pvpstatus.others")){
+                commandSender.sendMessage(ChatFormatterService.addPrefix(cs.getPermissionMessage()));
+            }
+
             player = Bukkit.getPlayerExact(args[0]);
 
             if(player == null){
-                commandSender.sendMessage(String.format(cs.getNotFoundMessage(), args[0]));
+                commandSender.sendMessage(ChatFormatterService.addPrefix(String.format(cs.getNotFoundMessage(), args[0])));
                 return true;
             }
-
-            commandSender.sendMessage(
-                    ChatFormatterService.addPrefix(
-                            String.format(
-                                    cs.getToggleMessage(),
-                                    ChatFormatterService.booleanHumanReadable(PvpService.isPvpEnabled(player)
-                                    )
-                            )
-                    )
-            );
         }
         commandSender.sendMessage(
                 ChatFormatterService.addPrefix(
