@@ -4,13 +4,11 @@ import com.lukeonuke.pvptoggle.event.OnDamageListener;
 import com.lukeonuke.pvptoggle.event.OnPlayerDeathListener;
 import com.lukeonuke.pvptoggle.event.OnPlayerJoin;
 import com.lukeonuke.pvptoggle.event.OnPlayerQuit;
-import com.lukeonuke.pvptoggle.service.ChatFormatterService;
 import com.lukeonuke.pvptoggle.service.ConfigurationService;
 import com.lukeonuke.pvptoggle.service.PlaceholderExpansionService;
 import com.lukeonuke.pvptoggle.service.PvpService;
 import lombok.Getter;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 

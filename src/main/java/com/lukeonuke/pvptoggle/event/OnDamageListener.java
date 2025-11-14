@@ -1,6 +1,5 @@
 package com.lukeonuke.pvptoggle.event;
 
-import com.lukeonuke.pvptoggle.PvpToggle;
 import com.lukeonuke.pvptoggle.service.ChatFormatterService;
 import com.lukeonuke.pvptoggle.service.ConfigurationService;
 import com.lukeonuke.pvptoggle.service.PvpService;
@@ -47,6 +46,12 @@ public class OnDamageListener implements Listener {
         // Check for direct melee attack
         if (event.getDamager() instanceof Player damagerLocal) {
             damager = damagerLocal;
+
+            // Cancel pvp handling if the attacker is allowed to bypass the plugin
+            if (damager.hasPermission("pvptoggle.bypass")) {
+                return;
+            }
+
             // Cancel PvP if either player has it disabled
             if (!PvpService.isPvpEnabled(damager) || !PvpService.isPvpEnabled(player)) {
                 event.setCancelled(true);
@@ -142,7 +147,6 @@ public class OnDamageListener implements Listener {
 
         // Handle anti-abuse cooldown if attack is not cancelled
         if (!event.isCancelled() && cs.getAntiAbuse()) {
-            if(Objects.isNull(player)) return;
             PvpService.setPvpCooldownTimestamp(player);
         }
     }
