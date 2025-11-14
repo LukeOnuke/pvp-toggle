@@ -121,4 +121,4 @@ enabled: "§cVulnerable"
 
 > pvp-toggle IS NOT AFFILIATED WITH Microsoft Corporation, Minecraft IS A REGISTERED TRADEMARK OF Microsoft Corporation
 > 
-> pvp-toggle IS NOT AFFILIATED WITH Rinth Inc, "Modrith" IS A REGISTERED TRADEMARK OF Rinth Inc
+> pvp-toggle IS NOT AFFILIATED WITH Rinth Inc, "Modrinth" IS A REGISTERED TRADEMARK OF Rinth Inc
