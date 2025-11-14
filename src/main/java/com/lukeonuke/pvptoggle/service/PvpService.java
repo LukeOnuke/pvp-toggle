@@ -165,6 +165,9 @@ public class PvpService {
      * @return <b>TRUE</b> if players cooldown has ended, <b>FALSE</b> otherwise.
      */
     public static boolean isPvpCooldownDone(Player player) {
+        if (player.hasPermission("pvptoggle.nocooldown")) {
+            return true;
+        }
         final ConfigurationService configurationService = ConfigurationService.getInstance();
         return Instant.now().isAfter(Instant.ofEpochMilli(getPvpCooldownTimestamp(player).toEpochMilli() + configurationService.getCooldownDuration() * 1000));
     }

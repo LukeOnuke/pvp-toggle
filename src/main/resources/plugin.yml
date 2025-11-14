@@ -33,4 +33,7 @@ permissions :
     default: true
   pvptoggle.bypass:
     description: "Bypass the plugin."
+    default: false
+  pvptoggle.nocooldown:
+    description: "Bypass the cooldown."
     default: op
