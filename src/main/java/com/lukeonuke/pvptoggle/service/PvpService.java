@@ -91,7 +91,9 @@ public class PvpService {
         if (existingTask != null) {
             existingTask.cancel(false);
         }
-        expirationTimes.put(player.getUniqueId().toString(), System.currentTimeMillis() + configurationService.getLimitedTime() * 1000);
+        expirationTimes.put(player.getUniqueId().toString(),
+                System.currentTimeMillis() + configurationService.getLimitedTime() * 1000
+        );
     }
 
     /**

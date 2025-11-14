@@ -5,7 +5,7 @@ api-version: '1.21'
 softdepend: [PlaceholderAPI]
 commands:
   pvp:
-    description: "Allow players to toggle PVP individually."
+    description: "Toggle PVP individually."
     usage: /<command>
     permission: pvptoggle.pvp
   pvpstatus:
@@ -17,10 +17,10 @@ commands:
       - pstatus
 permissions :
   pvptoggle.pvp.others:
-    description: "Allows the player to toggle PVP for other players."
+    description: "Toggle PVP for other players."
     default: op
   pvptoggle.pvp:
-    description: "Allows the player to toggle their own PVP."
+    description: "Toggle their own PVP."
     default: true
   pvptoggle.reload:
     description: "Reload the plugin."
@@ -29,5 +29,8 @@ permissions :
     description: "See if their own PVP is toggled."
     default: true
   pvptoggle.pvpstatus.others:
-    description: "See the if others have their pvp toggled."
+    description: "See the if others have their PVP toggled."
     default: true
+  pvptoggle.bypass:
+    description: "Bypass the plugin."
+    default: op
